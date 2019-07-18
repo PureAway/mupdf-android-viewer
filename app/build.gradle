@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+group = 'com.artifex.mupdf'
+version = '1.15.0'
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation files('libs/jni-release.aar')
+    implementation files('libs/lib-release.aar')
+}
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionName '1.15.1'
+        versionCode 60
+    }
+
+
+//    splits {
+//        abi {
+//            enable true
+//            universalApk true
+//        }
+//    }
+
+    // Increment version code for each ABI variant
+//    def abiOffsets = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4,]
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def offset = abiOffsets.get(output.getFilter(com.android.build.OutputFile.ABI))
+//            if (offset != null)
+//                output.versionCodeOverride = variant.versionCode + offset
+//        }
+//    }
+
+    signingConfigs {
+        release {
+            storeFile file("key")
+            storePassword "pdfkey"
+            keyAlias "key0"
+            keyPassword "pdfkey"
+        }
+
+        debug {
+            storeFile file("key")
+            storePassword "pdfkey"
+            keyAlias "key0"
+            keyPassword "pdfkey"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+}
